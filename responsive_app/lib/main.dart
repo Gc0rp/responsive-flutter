@@ -37,19 +37,66 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> peopleList = [];
-
-    for (var person in people) {
-      peopleList.add(ListTile(
-          leading: Image.network(person.picture), title: Text(person.name)));
-    }
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
         ),
-        body: Center(
-            child: ListView(
-          children: peopleList,
-        )));
+        body: LayoutBuilder(builder: (context, constraints) {
+          if (constraints.maxWidth > 400) {
+            return WideLayout();
+          } else {
+            return NarrowLayout();
+          }
+        }));
+  }
+}
+
+class NarrowLayout extends StatelessWidget {
+  const NarrowLayout({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    List<Widget> peopleList = [];
+
+    for (var person in people) {
+      peopleList.add(ListTile(
+          leading: Image.network(person.picture),
+          title: Text(person.name),
+          onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                    builder: (context) =>
+                        Scaffold(appBar: AppBar(), body: PersonDetail(person))),
+              )));
+
+      // return null ? Center(
+      //     child: Center(
+      //         child: ListView(
+      //   children: peopleList,
+      // )));
+      return Text("Test");
+    }
+  }
+}
+
+class WideLayout extends StatelessWidget {
+  const WideLayout({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(child: NarrowLayout(), color: Colors.red);
+  }
+}
+
+class PersonDetail extends StatelessWidget {
+  final Person person;
+
+  const PersonDetail(this.person);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [Text(person.name), Text(person.phone)],
+    );
   }
 }
