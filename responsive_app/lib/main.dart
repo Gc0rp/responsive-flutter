@@ -55,27 +55,7 @@ class NarrowLayout extends StatelessWidget {
   const NarrowLayout({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    List<Widget> peopleList = [];
-
-    for (var person in people) {
-      peopleList.add(ListTile(
-          leading: Image.network(person.picture),
-          title: Text(person.name),
-          onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                    builder: (context) =>
-                        Scaffold(appBar: AppBar(), body: PersonDetail(person))),
-              )));
-
-      // return null ? Center(
-      //     child: Center(
-      //         child: ListView(
-      //   children: peopleList,
-      // )));
-      return Text("Test");
-    }
-  }
+  Widget build(BuildContext context) {}
 }
 
 class WideLayout extends StatelessWidget {
@@ -98,5 +78,33 @@ class PersonDetail extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [Text(person.name), Text(person.phone)],
     );
+  }
+}
+
+class PeopleList extends StatelessWidget {
+  final void Function(Person) onPersonTap;
+
+  const PeopleList({Key? key, required this.onPersonTap}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    List<Widget> peopleList = [];
+
+    for (var person in people) {
+      peopleList.add(ListTile(
+          leading: Image.network(person.picture),
+          title: Text(person.name),
+          onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                    builder: (context) =>
+                        Scaffold(appBar: AppBar(), body: PersonDetail(person))),
+              )));
+    }
+
+    return Center(
+        child: Center(
+            child: ListView(
+      children: peopleList,
+    )));
   }
 }
