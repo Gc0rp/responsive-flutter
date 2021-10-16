@@ -55,15 +55,41 @@ class NarrowLayout extends StatelessWidget {
   const NarrowLayout({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {}
+  Widget build(BuildContext context) {
+    return PeopleList(
+      onPersonTap: (person) => Navigator.of(context).push(
+        MaterialPageRoute(
+            builder: (context) =>
+                Scaffold(appBar: AppBar(), body: PersonDetail(person))),
+      ),
+    );
+  }
 }
 
-class WideLayout extends StatelessWidget {
+class WideLayout extends StatefulWidget {
   const WideLayout({Key? key}) : super(key: key);
 
   @override
+  _WideLayoutState createState() => _WideLayoutState();
+}
+
+class _WideLayoutState extends State<WideLayout> {
+  late Person _person;
+
+  @override
   Widget build(BuildContext context) {
-    return Container(child: NarrowLayout(), color: Colors.red);
+    return Row(children: [
+      Expanded(
+        child: PeopleList(
+            onPersonTap: (person) => setState(() {
+                  _person = person;
+                })),
+        flex: 2,
+      ),
+      Expanded(
+          child: _person == null ? Placeholder() : PersonDetail(_person),
+          flex: 3)
+    ]);
   }
 }
 
@@ -94,11 +120,7 @@ class PeopleList extends StatelessWidget {
       peopleList.add(ListTile(
           leading: Image.network(person.picture),
           title: Text(person.name),
-          onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                    builder: (context) =>
-                        Scaffold(appBar: AppBar(), body: PersonDetail(person))),
-              )));
+          onTap: () => onPersonTap(person)));
     }
 
     return Center(
