@@ -74,7 +74,7 @@ class WideLayout extends StatefulWidget {
 }
 
 class _WideLayoutState extends State<WideLayout> {
-  late Person _person;
+  Person? _person;
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +87,7 @@ class _WideLayoutState extends State<WideLayout> {
         flex: 2,
       ),
       Expanded(
-          child: _person == null ? Placeholder() : PersonDetail(_person),
+          child: _person == null ? Placeholder() : PersonDetail(_person!),
           flex: 3)
     ]);
   }
