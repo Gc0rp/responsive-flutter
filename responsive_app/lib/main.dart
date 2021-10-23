@@ -93,6 +93,33 @@ class _WideLayoutState extends State<WideLayout> {
   }
 }
 
+class HoverButton extends StatefulWidget {
+  final String buttonText;
+
+  const HoverButton({ 
+    Key? key,
+    required String onHoverColor 
+    }) : super(key: key);
+
+  @override
+  _HoverButtonState createState() => _HoverButtonState();
+}
+
+class _HoverButtonState extends State<HoverButton> {
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+          child: Container(),
+          cursor: SystemMouseCursors.click,
+          onHover: (event) => {
+            setState(() {
+              primary = Colors.blue
+            })
+          }
+        );
+  }
+}
+
 class PersonDetail extends StatelessWidget {
   final Person person;
 
@@ -102,7 +129,29 @@ class PersonDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [Text(person.name), Text(person.phone)],
+      children: [
+        Text(person.name),
+        Text(person.phone),
+
+        MouseRegion(
+          child: Container(),
+          cursor: SystemMouseCursors.click,
+          onHover: (event) => {
+            setState(
+
+            )
+          }
+        )
+        ElevatedButton(
+          child: const Text("Contact Me"),
+          onPressed: () => {},
+          style: ButtonStyle(
+            foregroundColor: MaterialStateProperty.resolveWith<Color?>(Set<MaterialState> states) {
+              
+            }
+          ),
+        )
+      ],
     );
   }
 }
@@ -130,3 +179,4 @@ class PeopleList extends StatelessWidget {
     )));
   }
 }
+ 
